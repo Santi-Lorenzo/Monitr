@@ -9,6 +9,8 @@ const userSchema = new mongoose.Schema({
   },
   name: String,
   passwordHash: String,
+  categories: [String],
+  incomeSources: [String],
   expenses: [
     {
       type: mongoose.Schema.Types.ObjectId,
@@ -37,4 +39,4 @@ userSchema.set("toJSON", {
 
 const User = mongoose.model("User", userSchema);
 
-module.export = User;
+module.exports = User;

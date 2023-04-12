@@ -5,6 +5,10 @@ const expenseSchema = new mongoose.Schema({
   item: String,
   amount: Number,
   categories: [String],
+  user: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "User",
+  },
 });
 
 const Expense = mongoose.model("Expense", expenseSchema);

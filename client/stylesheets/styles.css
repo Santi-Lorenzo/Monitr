@@ -1,0 +1,64 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+/* ------------------------- Login/Registration ------------------------- */
+.loginContainer {
+  margin: 50px auto;
+  width: 400px;
+  border: 1px solid black;
+  padding: 4rem;
+  border-radius: 10px;
+}
+
+.loginContainer h2 {
+  text-align: center;
+  padding-bottom: 40px;
+}
+
+.loginForm {
+  display: flex;
+  flex-direction: column;
+}
+
+.loginContainer label {
+  text-align: left;
+  padding: 0.25rem 0;
+}
+
+.loginContainer input {
+  margin: 0.5rem 0;
+  padding: 1rem;
+  border: 1px solid black;
+  border-radius: 10px;
+}
+
+.loginContainer button {
+  border: none;
+  background-color: rgb(226, 226, 226);
+  padding: 20px;
+  border-radius: 10px;
+  cursor: pointer;
+  color: #2e5de9;
+}
+
+.loginContainer .linkBtn {
+  background: none;
+  text-decoration: underline;
+  color: black;
+}
+
+/* ------------------------- Nav ------------------------- */
+.nav {
+  width: 100%;
+  display: flex;
+  background-color: #f2f2f2;
+}
+
+.link {
+  margin-right: 20px;
+  padding: 10px;
+  text-decoration: none;
+}

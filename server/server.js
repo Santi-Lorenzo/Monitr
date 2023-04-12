@@ -19,10 +19,16 @@ mongoose
   .catch((err) => console.log(err));
 //------------------------------------------
 
+const expensesRouter = require("./routes/expensesRouter");
+const usersRouter = require("./routes/usersRouter");
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, "../client/"))); //dist
 app.use(cors());
+
+app.use("/api/users", usersRouter);
+app.use("/api/expenses", expensesRouter);
 
 // catch-all route handler for any requests to an unknown route
 app.use("*", (req, res, next) => {
