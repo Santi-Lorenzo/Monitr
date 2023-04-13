@@ -5,46 +5,39 @@ import axios from "axios";
 const Register = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const [name, setName] = useState("");
+  const [errorMessage, setErrorMessage] = useState(false);
 
   const navigate = useNavigate();
 
-  const handleSubmit = () => {};
-  // const handleSubmit = async (event) => {
-  //   event.preventDefault();
-  //   try {
-  //     await axios.post("api/users", {
-  //       username,
-  //       name,
-  //       password,
-  //     });
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    try {
+      await axios.post("api/users", {
+        username,
+        password,
+      });
 
-  //     setUsername("");
-  //     setPassword("");
-  //     setName("");
-  //     navigate("/login");
-  //   } catch (exception) {
-  //     console.log(exception);
-  //     // setErrorMessage('Wrong credentials')
-  //     // setTimeout(() => {
-  //     //   setErrorMessage(null)
-  //     // }, 5000)
-  //   }
-  // };
+      setUsername("");
+      setPassword("");
+      navigate("/login");
+    } catch (err) {
+      setErrorMessage(true);
+      setTimeout(() => {
+        setErrorMessage(false);
+      }, 5000);
+    }
+  };
 
   return (
     <div className="loginContainer">
       <h2>Register</h2>
+      <div
+        className="errorMessage"
+        style={{ visibility: errorMessage ? "visible" : "hidden" }}
+      >
+        The username {username} is not available
+      </div>
       <form onSubmit={handleSubmit} className="loginForm">
-        <label htmlFor="name">name</label>
-        <input
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-          type="username"
-          id="name"
-          name="name"
-          placeholder="name"
-        ></input>
         <label htmlFor="username">username</label>
         <input
           value={username}

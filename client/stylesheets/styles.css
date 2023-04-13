@@ -19,7 +19,6 @@ body {
 
 .loginContainer h2 {
   text-align: center;
-  padding-bottom: 40px;
 }
 
 .loginForm {
@@ -30,6 +29,7 @@ body {
 .loginContainer label {
   text-align: left;
   padding: 0.25rem 0;
+  font-weight: 600;
 }
 
 .loginContainer input {
@@ -52,6 +52,14 @@ body {
   background: none;
   text-decoration: underline;
   color: black;
+}
+
+.errorMessage {
+  color: #dc3b6c;
+  background-color: #f8d7da;
+  padding: 1rem;
+  border-radius: 10px;
+  margin: 8px 0px;
 }
 
 /* ------------------------- Nav ------------------------- */

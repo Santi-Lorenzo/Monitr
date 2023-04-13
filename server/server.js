@@ -21,12 +21,14 @@ mongoose
 
 const expensesRouter = require("./routes/expensesRouter");
 const usersRouter = require("./routes/usersRouter");
+const authRouter = require("./routes/authRouter");
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, "../client/"))); //dist
 app.use(cors());
 
+app.use("/api/auth", authRouter);
 app.use("/api/users", usersRouter);
 app.use("/api/expenses", expensesRouter);
 

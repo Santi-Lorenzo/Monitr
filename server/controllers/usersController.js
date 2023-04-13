@@ -5,13 +5,12 @@ usersController = {};
 
 usersController.register = async (req, res, next) => {
   try {
-    const { name, username, password } = req.body;
+    const { username, password } = req.body;
     const saltRounds = 10;
     const passwordHash = await bcrypt.hash(password, saltRounds);
 
     const user = new User({
       username,
-      name,
       passwordHash,
     });
 

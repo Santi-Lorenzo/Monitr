@@ -6,36 +6,37 @@ const Login = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
+  const [errorMessage, setErrorMessage] = useState(false);
 
-  const handleSubmit = () => {};
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    try {
+      const res = await axios.post("api/auth/login", {
+        username,
+        password,
+      });
 
-  // const handleSubmit = async (event) => {
-  //   event.preventDefault();
-  //   try {
-  //     const res = await axios.post("api/login", {
-  //       username,
-  //       password,
-  //     });
-
-  //     dispatch(actions.setUser(res.data));
-  //     setUsername("");
-  //     setPassword("");
-  //     window.localStorage.setItem(
-  //       "loggedCodeNoteUser",
-  //       JSON.stringify(res.data)
-  //     );
-  //     navigate("/");
-  //   } catch (exception) {
-  //     setErrorMessage("Wrong credentials");
-  //     setTimeout(() => {
-  //       setErrorMessage(null);
-  //     }, 5000);
-  //   }
-  // };
+      setUsername("");
+      setPassword("");
+      window.localStorage.setItem("loggedBBUser", JSON.stringify(res.data));
+      navigate("/expenses");
+    } catch (err) {
+      setErrorMessage(true);
+      setTimeout(() => {
+        setErrorMessage(false);
+      }, 5000);
+    }
+  };
 
   return (
     <div className="loginContainer">
       <h2>Login</h2>
+      <div
+        className="errorMessage"
+        style={{ visibility: errorMessage ? "visible" : "hidden" }}
+      >
+        Invalid username or password
+      </div>
       <form onSubmit={handleSubmit} className="loginForm">
         <label htmlFor="username">username</label>
         <input
