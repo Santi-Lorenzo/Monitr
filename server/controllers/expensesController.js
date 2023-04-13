@@ -5,7 +5,7 @@ const Expense = require("../models/expense");
 const expensesController = {};
 
 expensesController.getExpenses = (req, res, next) => {
-  res.locals.id = "64382dbff492807fde7408bb";
+  console.log("hi");
   User.findById(res.locals.id)
     .populate("expenses")
     .then((result) => {
@@ -24,7 +24,6 @@ expensesController.getExpenses = (req, res, next) => {
 
 expensesController.addExpense = async (req, res, next) => {
   try {
-    res.locals.id = "64382dbff492807fde7408bb";
     const user = await User.findById(res.locals.id);
     if (!user) {
       next({
@@ -86,14 +85,12 @@ expensesController.editExpense = async (req, res, next) => {
 
 expensesController.deleteExpense = async (req, res, next) => {
   try {
-    const { _id } = req.body.state;
-    console.log("id", _id);
-    const deletedExpense = await Expense.findByIdAndDelete(_id);
+    const deletedExpense = await Expense.findByIdAndDelete(req.params.id);
     console.log("deletedExpense", deletedExpense);
     const userId = deletedExpense.user;
     await User.findByIdAndUpdate(
       userId,
-      { $pull: { expenses: _id } },
+      { $pull: { expenses: req.params.id } },
       { new: true }
     );
 
@@ -111,7 +108,6 @@ expensesController.deleteExpense = async (req, res, next) => {
 
 expensesController.getCategories = (req, res, next) => {
   try {
-    res.locals.id = "643733eb74d6f4e4f36bae54";
     User.findById(res.locals.id).then((result) => {
       res.locals.results = result.categories;
       next();
@@ -128,7 +124,6 @@ expensesController.getCategories = (req, res, next) => {
 
 expensesController.changeCategories = async (req, res, next) => {
   try {
-    res.locals.id = "643733eb74d6f4e4f36bae54";
     const { categories } = req.body;
     const updatedUser = await User.findOneAndUpdate(
       { _id: res.locals.id },

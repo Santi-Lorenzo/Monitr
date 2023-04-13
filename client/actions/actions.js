@@ -25,7 +25,13 @@ actions.deleteState = (state) => ({
 
 actions.initializeStateThunk = () => async (dispatch) => {
   try {
-    const expenses = await axios.get("/api/expenses");
+    const token = JSON.parse(window.localStorage.getItem("loggedBBUser"));
+    console.log("token", token);
+    const expenses = await axios.get("/api/expenses", {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
     dispatch(actions.setState(expenses.data));
   } catch (err) {
     console.log("Error in initializeStateThunk:", err);
@@ -34,7 +40,12 @@ actions.initializeStateThunk = () => async (dispatch) => {
 
 actions.updateStateThunk = (state) => async (dispatch) => {
   try {
-    const res = await axios.put("/api/expenses", state);
+    const token = JSON.parse(window.localStorage.getItem("loggedBBUser"));
+    const res = await axios.put("/api/expenses", state, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
     dispatch(actions.updateState(res.data));
   } catch (err) {
     console.log("Error in updateStateThunk:", err);
@@ -43,7 +54,12 @@ actions.updateStateThunk = (state) => async (dispatch) => {
 
 actions.addStateThunk = (state) => async (dispatch) => {
   try {
-    const res = await axios.post("/api/expenses", state);
+    const token = JSON.parse(window.localStorage.getItem("loggedBBUser"));
+    const res = await axios.post("/api/expenses", state, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
     dispatch(actions.addState(res.data));
   } catch (err) {
     console.log("Error in addStateThunk:", err);
@@ -52,9 +68,11 @@ actions.addStateThunk = (state) => async (dispatch) => {
 
 actions.deleteStateThunk = (state) => async (dispatch) => {
   try {
-    const res = await axios.delete("/api/expenses", {
-      data: {
-        state,
+    const id = state._id;
+    const token = JSON.parse(window.localStorage.getItem("loggedBBUser"));
+    const res = await axios.delete(`/api/expenses/${id}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
       },
     });
     dispatch(actions.deleteState(res.data._id));

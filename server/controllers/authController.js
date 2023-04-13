@@ -38,4 +38,22 @@ authController.login = async (req, res, next) => {
   }
 };
 
+const getTokenFrom = (req) => {
+  const authorization = req.get("authorization");
+  if (authorization && authorization.startsWith("Bearer ")) {
+    return authorization.replace("Bearer ", "");
+  }
+  return null;
+};
+
+authController.authorize = (req, res, next) => {
+  const decodedToken = jwt.verify(getTokenFrom(req), process.env.SECRET);
+  if (!decodedToken.id) {
+    return res.status(401).json({ error: "token invalid" });
+  }
+
+  res.locals.id = decodedToken.id;
+  next();
+};
+
 module.exports = authController;
