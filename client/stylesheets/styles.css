@@ -4,6 +4,10 @@
   padding: 0;
 }
 
+body {
+  background-color: #f2f2f2;
+}
+
 /* ------------------------- Login/Registration ------------------------- */
 .loginContainer {
   margin: 50px auto;
@@ -55,10 +59,57 @@
   width: 100%;
   display: flex;
   background-color: #f2f2f2;
+  border-bottom: solid rgb(181, 181, 181) 2px;
 }
 
 .link {
   margin-right: 20px;
   padding: 10px;
   text-decoration: none;
+}
+
+/* ------------------------- Expenses ------------------------- */
+
+.tableContainer {
+  width: 700px;
+  margin: 50px auto;
+}
+
+.notion-table {
+  background-color: #f2f2f2;
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.notion-table .selected {
+  background-color: #f6f6f6;
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.4);
+}
+
+.nameInput {
+  background: none;
+  border: none;
+  height: 100%;
+  width: 100%;
+  outline: none;
+}
+
+.notion-table thead,
+.notion-table tfoot {
+  color: #8e8e8e;
+}
+
+.notion-table td,
+.notion-table th {
+  border: 1px solid rgb(204, 204, 204);
+  text-align: left;
+  padding: 8px;
+}
+
+.notion-table .leftBorder {
+  border-left: None;
+}
+
+.notion-table .rightBorder {
+  border-right: none;
 }
