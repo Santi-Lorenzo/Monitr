@@ -1,17 +1,15 @@
 import * as types from "../constants/actionTypes";
 
 const initialState = {
-  date: null,
-  item: null,
-  amount: null,
-  categories: [],
+  expenses: [],
 };
 
 const expensesReducer = (state = initialState, action) => {
   switch (action.type) {
-    case types.SET_INITIAL_STATE:
+    case types.SET_STATE:
       return {
         ...state,
+        expenses: action.payload,
       };
 
     default:

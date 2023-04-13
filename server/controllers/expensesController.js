@@ -5,7 +5,7 @@ const Expense = require("../models/expense");
 const expensesController = {};
 
 expensesController.getExpenses = (req, res, next) => {
-  res.locals.id = "64372b962e9dfd37338c3b2d";
+  res.locals.id = "64382dbff492807fde7408bb";
   User.findById(res.locals.id)
     .populate("expenses")
     .then((result) => {
@@ -24,7 +24,7 @@ expensesController.getExpenses = (req, res, next) => {
 
 expensesController.addExpense = async (req, res, next) => {
   try {
-    res.locals.id = "64372b962e9dfd37338c3b2d";
+    res.locals.id = "64382dbff492807fde7408bb";
     const user = await User.findById(res.locals.id);
     if (!user) {
       next({
@@ -34,13 +34,13 @@ expensesController.addExpense = async (req, res, next) => {
         },
       });
     }
-    const { date, item, amount, categories } = req.body;
+    const { date, name, amount, category } = req.body;
 
     const expense = new expenseModel({
       date,
-      item,
+      name,
       amount,
-      categories,
+      category,
       user: res.locals.id,
     });
 
@@ -62,12 +62,12 @@ expensesController.addExpense = async (req, res, next) => {
 
 expensesController.editExpense = async (req, res, next) => {
   try {
-    const { date, item, amount, categories, expenseId } = req.body;
+    const { date, name, amount, category, expenseId } = req.body;
     update = {
       date,
-      item,
+      name,
       amount,
-      categories,
+      category,
     };
     const updatedExpense = await Expense.findOneAndUpdate(
       { _id: expenseId },

@@ -1,37 +1,16 @@
 import React, { useState, useRef, useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import actions from "../../../actions/actions";
 
 const ExpensesTable = () => {
+  const expenses = useSelector((state) => state.expenses.expenses);
+  const dispatch = useDispatch();
   const inputRef = useRef(null);
+
   const [editingCell, setEditingCell] = useState({
     index: null,
     property: null,
   });
-  const [tableData, setTableData] = useState([
-    {
-      name: "shoes",
-      amount: "120",
-      date: "05/05/22",
-      category: "clothing",
-    },
-    {
-      name: "groceries",
-      amount: "80",
-      date: "05/06/22",
-      category: "food",
-    },
-    {
-      name: "gas",
-      amount: "60",
-      date: "05/06/22",
-      category: "travel",
-    },
-    {
-      name: "rent",
-      amount: "1230",
-      date: "05/09/22",
-      category: "rent",
-    },
-  ]);
 
   useEffect(() => {
     if (editingCell.index !== null && editingCell.property !== null) {
@@ -44,19 +23,36 @@ const ExpensesTable = () => {
   };
 
   const handleInputChange = (event, index, property) => {
-    const newData = [...tableData];
+    const newData = [...expenses];
     newData[index][property] = event.target.value;
-    setTableData(newData);
+    dispatch(actions.setState(newData));
   };
 
   const handleEnterKeyPress = (event) => {
-    console.log("key", event.key);
     if (event.key === "Enter") {
       setEditingCell({
         index: null,
         property: null,
       });
     }
+  };
+
+  const handleAddRow = () => {
+    const newExpense = {
+      name: null,
+      amount: null,
+      date: null,
+      category: null,
+    };
+
+    const updatedExpenses = [...expenses, newExpense];
+
+    dispatch(actions.setState(updatedExpenses));
+  };
+
+  const handleDeleteRow = (index) => {
+    const updatedExpenses = expenses.filter((_, i) => i !== index);
+    dispatch(actions.setState(updatedExpenses));
   };
 
   return (
@@ -72,7 +68,7 @@ const ExpensesTable = () => {
           </tr>
         </thead>
         <tbody>
-          {tableData.map((expense, index) => (
+          {expenses.map((expense, index) => (
             <tr key={index}>
               <td
                 className={
@@ -172,12 +168,22 @@ const ExpensesTable = () => {
                   expense.category
                 )}
               </td>
+              <button
+                onClick={() => handleDeleteRow(index)}
+                className="deleteBtn"
+              >
+                X
+              </button>
             </tr>
           ))}
         </tbody>
         <tfoot>
           <tr>
-            <td className="leftBorder rightBorder" colSpan="4">
+            <td
+              className="leftBorder rightBorder"
+              colSpan="4"
+              onClick={handleAddRow}
+            >
               + New
             </td>
           </tr>
