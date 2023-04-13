@@ -62,18 +62,16 @@ expensesController.addExpense = async (req, res, next) => {
 
 expensesController.editExpense = async (req, res, next) => {
   try {
-    const { date, name, amount, category, expenseId } = req.body;
+    const { date, name, amount, category, _id } = req.body;
     update = {
       date,
       name,
       amount,
       category,
     };
-    const updatedExpense = await Expense.findOneAndUpdate(
-      { _id: expenseId },
-      update,
-      { new: true }
-    );
+    const updatedExpense = await Expense.findOneAndUpdate({ _id }, update, {
+      new: true,
+    });
     res.locals.results = updatedExpense;
     next();
   } catch (err) {
@@ -88,17 +86,18 @@ expensesController.editExpense = async (req, res, next) => {
 
 expensesController.deleteExpense = async (req, res, next) => {
   try {
-    const { expenseId } = req.body;
-    const deletedExpense = await Expense.findByIdAndDelete(expenseId);
-
+    const { _id } = req.body.state;
+    console.log("id", _id);
+    const deletedExpense = await Expense.findByIdAndDelete(_id);
+    console.log("deletedExpense", deletedExpense);
     const userId = deletedExpense.user;
-    const updatedUser = await User.findByIdAndUpdate(
+    await User.findByIdAndUpdate(
       userId,
-      { $pull: { expenses: expenseId } },
+      { $pull: { expenses: _id } },
       { new: true }
     );
 
-    res.locals.results = updatedUser;
+    res.locals.results = deletedExpense;
     next();
   } catch (err) {
     next({

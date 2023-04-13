@@ -25,7 +25,7 @@ const ExpensesTable = () => {
   const handleInputChange = (event, index, property) => {
     const newData = [...expenses];
     newData[index][property] = event.target.value;
-    dispatch(actions.setState(newData));
+    dispatch(actions.updateStateThunk(newData[index]));
   };
 
   const handleEnterKeyPress = (event) => {
@@ -39,20 +39,18 @@ const ExpensesTable = () => {
 
   const handleAddRow = () => {
     const newExpense = {
-      name: null,
-      amount: null,
-      date: null,
-      category: null,
+      name: undefined,
+      amount: undefined,
+      date: undefined,
+      category: undefined,
     };
 
-    const updatedExpenses = [...expenses, newExpense];
-
-    dispatch(actions.setState(updatedExpenses));
+    dispatch(actions.addStateThunk(newExpense));
   };
 
   const handleDeleteRow = (index) => {
-    const updatedExpenses = expenses.filter((_, i) => i !== index);
-    dispatch(actions.setState(updatedExpenses));
+    console.log(expenses[index]);
+    dispatch(actions.deleteStateThunk(expenses[index]));
   };
 
   return (

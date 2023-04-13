@@ -12,6 +12,38 @@ const expensesReducer = (state = initialState, action) => {
         expenses: action.payload,
       };
 
+    case types.UPDATE_STATE:
+      const index = state.expenses.findIndex(
+        (obj) => obj._id === action.payload._id
+      );
+
+      const updatedExpenses = [
+        ...state.expenses.slice(0, index),
+        action.payload,
+        ...state.expenses.slice(index + 1),
+      ];
+
+      return {
+        ...state,
+        expenses: updatedExpenses,
+      };
+
+    case types.ADD_STATE:
+      const newExpenses = [...state.expenses, action.payload];
+      return {
+        ...state,
+        expenses: newExpenses,
+      };
+
+    case types.DELETE_STATE:
+      const deletedExpenses = state.expenses.filter(
+        (obj) => obj._id !== action.payload
+      );
+      return {
+        ...state,
+        expenses: deletedExpenses,
+      };
+
     default:
       return state;
   }
