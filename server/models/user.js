@@ -14,7 +14,12 @@ const userSchema = new mongoose.Schema({
       ref: "Category",
     },
   ],
-  incomeSources: [String],
+  sources: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Source",
+    },
+  ],
   expenses: [
     {
       type: mongoose.Schema.Types.ObjectId,

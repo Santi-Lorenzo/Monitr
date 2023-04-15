@@ -4,7 +4,6 @@ const User = require("../models/user");
 const categoriesController = {};
 
 categoriesController.getCategories = (req, res, next) => {
-  console.log("hi");
   User.findById(res.locals.id)
     .populate("categories")
     .then((result) => {
@@ -56,7 +55,6 @@ categoriesController.addCategory = async (req, res, next) => {
 };
 
 categoriesController.editCategory = async (req, res, next) => {
-  console.log(req.body);
   try {
     const { name, _id } = req.body;
     update = {
