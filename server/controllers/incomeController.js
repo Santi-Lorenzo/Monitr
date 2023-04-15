@@ -31,12 +31,12 @@ incomeController.addIncome = async (req, res, next) => {
         },
       });
     }
-    const { date, amount, category } = req.body;
+    const { date, amount, source } = req.body;
 
     const income = new Income({
       date,
       amount,
-      category,
+      source,
       user: res.locals.id,
     });
 
@@ -58,11 +58,11 @@ incomeController.addIncome = async (req, res, next) => {
 
 incomeController.editIncome = async (req, res, next) => {
   try {
-    const { date, amount, category, _id } = req.body;
+    const { date, amount, source, _id } = req.body;
     update = {
       date,
       amount,
-      category,
+      source,
     };
 
     const updatedIncome = await Income.findOneAndUpdate({ _id }, update, {

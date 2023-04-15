@@ -1,9 +1,9 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useRef } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import actions from "../../../actions/actions";
 
-const Category = (props) => {
-  const categories = useSelector((state) => state.categories.categories);
+const Source = (props) => {
+  const sources = useSelector((state) => state.sources.sources);
   const dispatch = useDispatch();
   const [display, setDisplay] = useState("Select");
   // const selectedCategory = useSelector(
@@ -17,24 +17,24 @@ const Category = (props) => {
     setTriggerDropDown(!triggerDropDown);
   };
 
-  const handleAddCategory = () => {
+  const handleAddSource = () => {
     if (input.length > 0) {
-      dispatch(actions.addCategoryThunk({ name: input }));
+      dispatch(actions.addSourceThunk({ name: input }));
       setInput("");
     }
   };
 
-  const handleDeleteCategory = (index) => {
-    dispatch(actions.deleteCategoryThunk(categories[index]));
+  const handleDeleteSource = (index) => {
+    dispatch(actions.deleteSourceThunk(sources[index]));
   };
 
   const handleInputChange = (event) => {
     setInput(event.target.value);
   };
 
-  const handleCategory = (index) => {
-    const copy = [...categories];
-    props.handleCategorySelection(copy[index].name);
+  const handleSource = (index) => {
+    const copy = [...sources];
+    props.handleSourceSelection(copy[index].name);
     setDisplay(copy[index].name);
     // dispatch(actions.setSelectedCategory(copy[index].name));
     handleDropDown();
@@ -44,15 +44,15 @@ const Category = (props) => {
     console.log(event.key);
   };
 
-  const dropDown = categories.map((category, index) => {
+  const dropDown = sources.map((source, index) => {
     return (
-      <li key={category._id} className="dropDownListItem">
-        <div onClick={() => handleCategory(index)} className="dropDownItem">
-          {category.name}
+      <li key={source._id} className="dropDownListItem">
+        <div onClick={() => handleSource(index)} className="dropDownItem">
+          {source.name}
         </div>
         <button
           className="dropDownDeleteBtn"
-          onClick={() => handleDeleteCategory(index)}
+          onClick={() => handleDeleteSource(index)}
         >
           X
         </button>
@@ -80,10 +80,10 @@ const Category = (props) => {
               className="categoryInput"
               value={input}
               type="text"
-              placeholder="create category"
+              placeholder="create source"
               onChange={handleInputChange}
             />
-            <button onClick={handleAddCategory}>Add</button>
+            <button onClick={handleAddSource}>Add</button>
           </div>
         </div>
       )}
@@ -91,4 +91,4 @@ const Category = (props) => {
   );
 };
 
-export default Category;
+export default Source;
