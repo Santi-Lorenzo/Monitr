@@ -1,6 +1,7 @@
 import React, { useState, useRef, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import actions from "../../../actions/actions";
+import CategoryDropDown from "./CategoryDropDown";
 
 const ExpensesTable = () => {
   const expenses = useSelector((state) => state.expenses.expenses);
@@ -13,7 +14,11 @@ const ExpensesTable = () => {
   });
 
   useEffect(() => {
-    if (editingCell.index !== null && editingCell.property !== null) {
+    if (
+      editingCell.index !== null &&
+      editingCell.property !== null &&
+      editingCell.property !== "category"
+    ) {
       inputRef.current.focus();
     }
   }, [editingCell]);
@@ -24,7 +29,9 @@ const ExpensesTable = () => {
 
   const handleInputChange = (event, index, property) => {
     const newData = [...expenses];
+    console.log("gg", event.target.value);
     newData[index][property] = event.target.value;
+
     dispatch(actions.updateStateThunk(newData[index]));
   };
 
@@ -39,18 +46,30 @@ const ExpensesTable = () => {
 
   const handleAddRow = () => {
     const newExpense = {
-      name: undefined,
-      amount: undefined,
-      date: undefined,
-      category: undefined,
+      name: "",
+      amount: "",
+      date: "",
+      category: "",
     };
 
     dispatch(actions.addStateThunk(newExpense));
   };
 
   const handleDeleteRow = (index) => {
-    console.log(expenses[index]);
-    dispatch(actions.deleteStateThunk(expenses[index]));
+    if (expenses.length != 1) {
+      dispatch(actions.deleteStateThunk(expenses[index]));
+    }
+  };
+
+  const displayDate = (dateString) => {
+    const timestamp = Date.parse(dateString);
+    const dateObject = new Date(timestamp);
+    const utcDate = new Date(
+      dateObject.getUTCFullYear(),
+      dateObject.getUTCMonth(),
+      dateObject.getUTCDate()
+    );
+    return utcDate.toLocaleDateString();
   };
 
   return (
@@ -82,7 +101,7 @@ const ExpensesTable = () => {
                     ref={inputRef}
                     className="nameInput"
                     type="text"
-                    value={expense.name}
+                    value={expense.name || ""}
                     onChange={(event) =>
                       handleInputChange(event, index, "name")
                     }
@@ -99,22 +118,25 @@ const ExpensesTable = () => {
                     ? "selected"
                     : ""
                 }
+                style={{ textAlign: "right" }}
                 onClick={() => handleCellClick(index, "amount")}
               >
                 {editingCell.index === index &&
                 editingCell.property === "amount" ? (
                   <input
                     ref={inputRef}
-                    className="nameInput"
-                    type="text"
-                    value={expense.amount}
+                    className="nameInput amountInput"
+                    type="number"
+                    value={expense.amount || ""}
                     onChange={(event) =>
                       handleInputChange(event, index, "amount")
                     }
                     onKeyDown={handleEnterKeyPress}
                   />
+                ) : expense.amount ? (
+                  `$${expense.amount.toFixed(2)}`
                 ) : (
-                  expense.amount
+                  ""
                 )}
               </td>
               <td
@@ -130,15 +152,17 @@ const ExpensesTable = () => {
                   <input
                     ref={inputRef}
                     className="nameInput"
-                    type="text"
-                    value={expense.date}
+                    type="date"
+                    value={expense.date || ""}
                     onChange={(event) =>
                       handleInputChange(event, index, "date")
                     }
                     onKeyDown={handleEnterKeyPress}
                   />
+                ) : expense.date ? (
+                  displayDate(expense.date)
                 ) : (
-                  expense.date
+                  ""
                 )}
               </td>
               <td
@@ -152,38 +176,31 @@ const ExpensesTable = () => {
               >
                 {editingCell.index === index &&
                 editingCell.property === "category" ? (
-                  <input
-                    ref={inputRef}
-                    className="nameInput"
-                    type="text"
-                    value={expense.category}
-                    onChange={(event) =>
-                      handleInputChange(event, index, "category")
-                    }
-                    onKeyDown={handleEnterKeyPress}
-                  />
+                  <CategoryDropDown />
                 ) : (
                   expense.category
                 )}
               </td>
-              <button
-                onClick={() => handleDeleteRow(index)}
-                className="deleteBtn"
-              >
-                X
-              </button>
+              <td className="noBorder">
+                <button
+                  onClick={() => handleDeleteRow(index)}
+                  className="deleteBtn"
+                >
+                  X
+                </button>
+              </td>
             </tr>
           ))}
         </tbody>
         <tfoot>
           <tr>
-            <td
+            <th
               className="leftBorder rightBorder"
               colSpan="4"
               onClick={handleAddRow}
             >
               + New
-            </td>
+            </th>
           </tr>
         </tfoot>
       </table>

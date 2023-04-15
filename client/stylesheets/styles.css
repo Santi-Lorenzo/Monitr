@@ -6,6 +6,7 @@
 
 body {
   background-color: #f2f2f2;
+  font-family: "Open Sans", sans-serif;
 }
 
 /* ------------------------- Login/Registration ------------------------- */
@@ -66,7 +67,6 @@ body {
 .nav {
   width: 100%;
   display: flex;
-  background-color: #f2f2f2;
   border-bottom: solid rgb(181, 181, 181) 2px;
 }
 
@@ -79,14 +79,19 @@ body {
 /* ------------------------- Expenses ------------------------- */
 
 .tableContainer {
-  margin: 50px auto;
-  width: 800px;
+  margin: 50px 100px;
+  width: calc(50vw - 100px);
+}
+
+.tableContainer h2 {
+  color: #5a5a5a;
+  margin-bottom: 20px;
 }
 
 .notion-table {
-  background-color: #f2f2f2;
   width: 100%;
   border-collapse: collapse;
+  font-size: 16px;
 }
 
 .notion-table .selected {
@@ -100,20 +105,33 @@ body {
   height: 100%;
   width: 100%;
   outline: none;
+  font-size: 16px;
+  font-family: "Open Sans", sans-serif;
+  color: #5a5a5a;
+}
+
+.amountInput {
+  text-align: right;
 }
 
 .notion-table thead,
 .notion-table tfoot {
-  color: #8e8e8e;
+  color: rgb(167, 167, 167);
 }
 
 .notion-table td,
 .notion-table th {
   border: 1px solid rgb(204, 204, 204);
   text-align: left;
-  padding: 8px;
+  padding: 4px 8px;
   height: 40px;
   width: 200px;
+  font-weight: 400;
+  position: relative;
+}
+
+.notion-table td {
+  color: #5a5a5a;
 }
 
 .notion-table .leftBorder {
@@ -124,11 +142,89 @@ body {
   border-right: none;
 }
 
+.notion-table .noBorder {
+  border: none;
+  width: 50px;
+}
+
+tfoot th {
+  cursor: pointer;
+}
+
 .deleteBtn {
   height: 40px;
   width: 40px;
-  margin-left: 20px;
+  margin-left: 10px;
   background: none;
   border: 1px solid rgb(204, 204, 204);
-  color: #8e8e8e;
+  color: rgb(167, 167, 167);
+  cursor: pointer;
 }
+
+/* ------------------------- up/down arrows in amount input box ------------------------- */
+
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type="number"] {
+  -moz-appearance: textfield;
+}
+
+/* ------------------------- drop down box ------------------------- */
+
+.dropDownListItem {
+  display: flex;
+  list-style-type: none;
+  border: 1px solid rgb(204, 204, 204);
+}
+
+.dropDownItem {
+  width: 100%;
+  padding: 5px;
+  color: #5a5a5a;
+  padding: 8px;
+}
+
+.dropDownCategory {
+  width: 100%;
+  padding: 5px;
+  border: #5a5a5a 1px solid;
+}
+
+.dropDownDeleteBtn {
+  background: none;
+  margin-left: 10px;
+  width: 30px;
+  height: 30;
+  /* border: 1px solid rgb(204, 204, 204); */
+  border: none;
+  color: rgb(167, 167, 167);
+  cursor: pointer;
+  padding: 5px;
+}
+
+.dropDownContainer {
+  width: 200px;
+  position: absolute;
+  top: 40px;
+  background-color: #f6f6f6;
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.4);
+  z-index: 100;
+}
+
+.addCategory {
+  padding: 8px;
+  border: 1px solid rgb(204, 204, 204);
+  color: rgb(167, 167, 167);
+}
+
+/* background color:  #f2f2f2; */
+/* floating cells background color:  #f6f6f6; */
+/* border color: rgb(204, 204, 204) */
+/* color of header and new font: color: rgb(167, 167, 167); */
+/* color for middle cells: #5a5a5a; */

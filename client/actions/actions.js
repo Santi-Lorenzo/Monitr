@@ -26,13 +26,38 @@ actions.deleteState = (state) => ({
 actions.initializeStateThunk = () => async (dispatch) => {
   try {
     const token = JSON.parse(window.localStorage.getItem("loggedBBUser"));
-    console.log("token", token);
     const expenses = await axios.get("/api/expenses", {
       headers: {
         Authorization: `Bearer ${token}`,
       },
     });
-    dispatch(actions.setState(expenses.data));
+
+    const categories = await axios.get("/api/expenses/categories", {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    if (expenses.data.length === 0) {
+      dispatch(
+        actions.addStateThunk({
+          expenses: {
+            name: "",
+            amount: "",
+            date: "",
+            category: "",
+          },
+          categories: categories.data,
+        })
+      );
+    } else {
+      dispatch(
+        actions.setState({
+          expenses: expenses.data,
+          categories: categories.data,
+        })
+      );
+    }
   } catch (err) {
     console.log("Error in initializeStateThunk:", err);
   }
@@ -46,6 +71,7 @@ actions.updateStateThunk = (state) => async (dispatch) => {
         Authorization: `Bearer ${token}`,
       },
     });
+    console.log("res", res.data);
     dispatch(actions.updateState(res.data));
   } catch (err) {
     console.log("Error in updateStateThunk:", err);

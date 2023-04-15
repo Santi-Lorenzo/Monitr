@@ -41,20 +41,4 @@ router.delete(
   }
 );
 
-// get collections
-router.get(
-  "/categories",
-  authController.authorize,
-  expensesController.getCategories,
-  (req, res) => res.status(200).json(res.locals.results)
-);
-
-// change collections
-router.post(
-  "/categories",
-  authController.authorize,
-  expensesController.changeCategories,
-  (req, res) => res.status(200).json(res.locals.results)
-);
-
 module.exports = router;

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import Nav from "./Nav";
 
 const Income = () => {
@@ -6,6 +6,7 @@ const Income = () => {
     <>
       <Nav />
       <div>Income</div>
+      <input className="nameInput" type="date" />
     </>
   );
 };

@@ -2,6 +2,7 @@ import * as types from "../constants/actionTypes";
 
 const initialState = {
   expenses: [],
+  categories: [],
 };
 
 const expensesReducer = (state = initialState, action) => {
@@ -9,13 +10,16 @@ const expensesReducer = (state = initialState, action) => {
     case types.SET_STATE:
       return {
         ...state,
-        expenses: action.payload,
+        expenses: action.payload.expenses,
+        categories: action.payload.categories,
       };
 
     case types.UPDATE_STATE:
       const index = state.expenses.findIndex(
         (obj) => obj._id === action.payload._id
       );
+
+      action.payload.date = action.payload.date.slice(0, 10);
 
       const updatedExpenses = [
         ...state.expenses.slice(0, index),

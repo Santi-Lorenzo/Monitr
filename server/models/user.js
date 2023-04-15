@@ -8,7 +8,12 @@ const userSchema = new mongoose.Schema({
     unique: true,
   },
   passwordHash: String,
-  categories: [String],
+  categories: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Category",
+    },
+  ],
   incomeSources: [String],
   expenses: [
     {

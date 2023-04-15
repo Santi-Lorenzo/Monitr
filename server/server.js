@@ -22,6 +22,7 @@ mongoose
 const expensesRouter = require("./routes/expensesRouter");
 const usersRouter = require("./routes/usersRouter");
 const authRouter = require("./routes/authRouter");
+const categoriesRouter = require("./routes/categoriesRouter");
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -31,6 +32,7 @@ app.use(cors());
 app.use("/api/auth", authRouter);
 app.use("/api/users", usersRouter);
 app.use("/api/expenses", expensesRouter);
+app.use("/api/categories", categoriesRouter);
 
 // catch-all route handler for any requests to an unknown route
 app.use("*", (req, res, next) => {
