@@ -1,8 +1,10 @@
-const Category = require("../models/user");
+const Category = require("../models/category");
+const User = require("../models/user");
 
 const categoriesController = {};
 
 categoriesController.getCategories = (req, res, next) => {
+  console.log("hi");
   User.findById(res.locals.id)
     .populate("categories")
     .then((result) => {

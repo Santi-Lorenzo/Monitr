@@ -3,67 +3,67 @@ import axios from "axios";
 
 const actions = {};
 
-actions.setState = (state) => ({
-  type: types.SET_STATE,
+actions.setExpenses = (state) => ({
+  type: types.SET_EXPENSES,
   payload: state,
 });
 
-actions.updateState = (state) => ({
-  type: types.UPDATE_STATE,
+actions.updateExpense = (state) => ({
+  type: types.UPDATE_EXPENSE,
   payload: state,
 });
 
-actions.addState = (state) => ({
-  type: types.ADD_STATE,
+actions.addExpense = (state) => ({
+  type: types.ADD_EXPENSE,
   payload: state,
 });
 
-actions.deleteState = (state) => ({
-  type: types.DELETE_STATE,
+actions.deleteExpense = (state) => ({
+  type: types.DELETE_EXPENSE,
   payload: state,
 });
 
-actions.initializeStateThunk = () => async (dispatch) => {
+actions.initializeExpensesThunk = () => async (dispatch) => {
   try {
     const token = JSON.parse(window.localStorage.getItem("loggedBBUser"));
-    const expenses = await axios.get("/api/expenses", {
+    const res = await axios.get("/api/expenses", {
       headers: {
         Authorization: `Bearer ${token}`,
       },
     });
 
-    const categories = await axios.get("/api/expenses/categories", {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
-
-    if (expenses.data.length === 0) {
+    if (res.data.length === 0) {
       dispatch(
         actions.addStateThunk({
-          expenses: {
-            name: "",
-            amount: "",
-            date: "",
-            category: "",
-          },
-          categories: categories.data,
+          name: "",
+          amount: "",
+          date: "",
+          category: "",
         })
       );
     } else {
-      dispatch(
-        actions.setState({
-          expenses: expenses.data,
-          categories: categories.data,
-        })
-      );
+      dispatch(actions.setExpenses(res.data));
     }
   } catch (err) {
-    console.log("Error in initializeStateThunk:", err);
+    console.log("Error in initializeExpensesThunk:", err);
   }
 };
 
-actions.updateStateThunk = (state) => async (dispatch) => {
+actions.addExpenseThunk = (state) => async (dispatch) => {
+  try {
+    const token = JSON.parse(window.localStorage.getItem("loggedBBUser"));
+    const res = await axios.post("/api/expenses", state, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    dispatch(actions.addExpense(res.data));
+  } catch (err) {
+    console.log("Error in addExpenseThunk:", err);
+  }
+};
+
+actions.updateExpenseThunk = (state) => async (dispatch) => {
   try {
     const token = JSON.parse(window.localStorage.getItem("loggedBBUser"));
     const res = await axios.put("/api/expenses", state, {
@@ -72,27 +72,13 @@ actions.updateStateThunk = (state) => async (dispatch) => {
       },
     });
     console.log("res", res.data);
-    dispatch(actions.updateState(res.data));
+    dispatch(actions.updateExpense(res.data));
   } catch (err) {
-    console.log("Error in updateStateThunk:", err);
+    console.log("Error in updateExpenseThunk:", err);
   }
 };
 
-actions.addStateThunk = (state) => async (dispatch) => {
-  try {
-    const token = JSON.parse(window.localStorage.getItem("loggedBBUser"));
-    const res = await axios.post("/api/expenses", state, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
-    dispatch(actions.addState(res.data));
-  } catch (err) {
-    console.log("Error in addStateThunk:", err);
-  }
-};
-
-actions.deleteStateThunk = (state) => async (dispatch) => {
+actions.deleteExpenseThunk = (state) => async (dispatch) => {
   try {
     const id = state._id;
     const token = JSON.parse(window.localStorage.getItem("loggedBBUser"));
@@ -101,9 +87,99 @@ actions.deleteStateThunk = (state) => async (dispatch) => {
         Authorization: `Bearer ${token}`,
       },
     });
-    dispatch(actions.deleteState(res.data._id));
+    dispatch(actions.deleteExpense(res.data._id));
   } catch (err) {
-    console.log("Error in deleteStateThunk:", err);
+    console.log("Error in deleteExpenseThunk:", err);
   }
 };
+
+//----------------------categories-----------------------------
+actions.setCategories = (state) => ({
+  type: types.SET_CATEGORIES,
+  payload: state,
+});
+
+actions.updateCategory = (state) => ({
+  type: types.UPDATE_CATEGORY,
+  payload: state,
+});
+
+actions.addCategory = (state) => ({
+  type: types.ADD_CATEGORY,
+  payload: state,
+});
+
+actions.deleteCategory = (state) => ({
+  type: types.DELETE_CATEGORY,
+  payload: state,
+});
+
+actions.initializeCategoriesThunk = () => async (dispatch) => {
+  try {
+    const token = JSON.parse(window.localStorage.getItem("loggedBBUser"));
+    const res = await axios.get("/api/categories", {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    console.log(res.data);
+    if (res.data.length === 0) {
+      dispatch(
+        actions.addCategoryThunk({
+          name: "",
+        })
+      );
+    } else {
+      dispatch(actions.setCategories(res.data));
+    }
+  } catch (err) {
+    console.log("Error in initializeCategoriesThunk:", err);
+  }
+};
+
+actions.addCategoryThunk = (state) => async (dispatch) => {
+  try {
+    const token = JSON.parse(window.localStorage.getItem("loggedBBUser"));
+    const res = await axios.post("/api/categories", state, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    dispatch(actions.addCategory(res.data));
+  } catch (err) {
+    console.log("Error in addCategoryThunk:", err);
+  }
+};
+
+actions.updateCategoryThunk = (state) => async (dispatch) => {
+  try {
+    const token = JSON.parse(window.localStorage.getItem("loggedBBUser"));
+    const res = await axios.put("/api/categories", state, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    console.log("res", res.data);
+    dispatch(actions.updateCategory(res.data));
+  } catch (err) {
+    console.log("Error in updateCategoryThunk:", err);
+  }
+};
+
+actions.deleteExpenseThunk = (state) => async (dispatch) => {
+  try {
+    const id = state._id;
+    const token = JSON.parse(window.localStorage.getItem("loggedBBUser"));
+    const res = await axios.delete(`/api/categories/${id}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    dispatch(actions.deleteCategory(res.data._id));
+  } catch (err) {
+    console.log("Error in deleteExpenseThunk:", err);
+  }
+};
+
 export default actions;

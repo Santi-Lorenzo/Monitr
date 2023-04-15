@@ -1,4 +1,8 @@
-export const SET_STATE = "SET_STATE";
-export const UPDATE_STATE = "UPDATE_STATE";
-export const ADD_STATE = "ADD_STATE";
-export const DELETE_STATE = "DELETE_STATE";
+export const SET_EXPENSES = "SET_EXPENSES";
+export const UPDATE_EXPENSE = "UPDATE_EXPENSE";
+export const ADD_EXPENSE = "ADD_EXPENSE";
+export const DELETE_EXPENSE = "DELETE_EXPENSE";
+export const SET_CATEGORIES = "SET_CATEGORIES";
+export const UPDATE_CATEGORY = "UPDATE_CATEGORY";
+export const ADD_CATEGORY = "ADD_CATEGORY";
+export const DELETE_CATEGORY = "DELETE_CATEGORY";

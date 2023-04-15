@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 
 const CategoryDropDown = () => {
-  // const categories = useSelector((state) => state.expenses.categories);
+  // const categories = useSelector((state) => state.categories.categories);
 
   const categories = ["food", "rent", "entertainment", "medical"];
   const dispatch = useDispatch();

@@ -2,19 +2,17 @@ import * as types from "../constants/actionTypes";
 
 const initialState = {
   expenses: [],
-  categories: [],
 };
 
 const expensesReducer = (state = initialState, action) => {
   switch (action.type) {
-    case types.SET_STATE:
+    case types.SET_EXPENSES:
       return {
         ...state,
-        expenses: action.payload.expenses,
-        categories: action.payload.categories,
+        expenses: action.payload,
       };
 
-    case types.UPDATE_STATE:
+    case types.UPDATE_EXPENSE:
       const index = state.expenses.findIndex(
         (obj) => obj._id === action.payload._id
       );
@@ -32,14 +30,14 @@ const expensesReducer = (state = initialState, action) => {
         expenses: updatedExpenses,
       };
 
-    case types.ADD_STATE:
+    case types.ADD_EXPENSE:
       const newExpenses = [...state.expenses, action.payload];
       return {
         ...state,
         expenses: newExpenses,
       };
 
-    case types.DELETE_STATE:
+    case types.DELETE_EXPENSE:
       const deletedExpenses = state.expenses.filter(
         (obj) => obj._id !== action.payload
       );

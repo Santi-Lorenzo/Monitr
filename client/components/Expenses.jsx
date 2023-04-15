@@ -7,7 +7,8 @@ import actions from "../actions/actions";
 const Expenses = () => {
   const dispatch = useDispatch();
   useEffect(() => {
-    dispatch(actions.initializeStateThunk());
+    dispatch(actions.initializeExpensesThunk());
+    dispatch(actions.initializeCategoriesThunk());
   }, []);
 
   return (

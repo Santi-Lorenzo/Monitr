@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import actions from "../../../actions/actions";
-import CategoryDropDown from "./CategoryDropDown";
+import Category from "./Category";
 
 const ExpensesTable = () => {
   const expenses = useSelector((state) => state.expenses.expenses);
@@ -32,7 +32,7 @@ const ExpensesTable = () => {
     console.log("gg", event.target.value);
     newData[index][property] = event.target.value;
 
-    dispatch(actions.updateStateThunk(newData[index]));
+    dispatch(actions.updateExpenseThunk(newData[index]));
   };
 
   const handleEnterKeyPress = (event) => {
@@ -52,12 +52,12 @@ const ExpensesTable = () => {
       category: "",
     };
 
-    dispatch(actions.addStateThunk(newExpense));
+    dispatch(actions.addExpenseThunk(newExpense));
   };
 
   const handleDeleteRow = (index) => {
     if (expenses.length != 1) {
-      dispatch(actions.deleteStateThunk(expenses[index]));
+      dispatch(actions.deleteExpenseThunk(expenses[index]));
     }
   };
 
@@ -176,7 +176,7 @@ const ExpensesTable = () => {
               >
                 {editingCell.index === index &&
                 editingCell.property === "category" ? (
-                  <CategoryDropDown />
+                  <Category />
                 ) : (
                   expense.category
                 )}
