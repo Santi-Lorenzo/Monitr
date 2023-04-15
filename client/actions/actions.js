@@ -34,7 +34,7 @@ actions.initializeExpensesThunk = () => async (dispatch) => {
 
     if (res.data.length === 0) {
       dispatch(
-        actions.addStateThunk({
+        actions.addExpenseThunk({
           name: "",
           amount: "",
           date: "",
@@ -114,6 +114,11 @@ actions.deleteCategory = (state) => ({
   payload: state,
 });
 
+actions.setSelectedCategory = (state) => ({
+  type: types.SET_SELECTED_CATEGORY,
+  payload: state,
+});
+
 actions.initializeCategoriesThunk = () => async (dispatch) => {
   try {
     const token = JSON.parse(window.localStorage.getItem("loggedBBUser"));
@@ -123,16 +128,7 @@ actions.initializeCategoriesThunk = () => async (dispatch) => {
       },
     });
 
-    console.log(res.data);
-    if (res.data.length === 0) {
-      dispatch(
-        actions.addCategoryThunk({
-          name: "",
-        })
-      );
-    } else {
-      dispatch(actions.setCategories(res.data));
-    }
+    dispatch(actions.setCategories(res.data));
   } catch (err) {
     console.log("Error in initializeCategoriesThunk:", err);
   }
@@ -167,7 +163,7 @@ actions.updateCategoryThunk = (state) => async (dispatch) => {
   }
 };
 
-actions.deleteExpenseThunk = (state) => async (dispatch) => {
+actions.deleteCategoryThunk = (state) => async (dispatch) => {
   try {
     const id = state._id;
     const token = JSON.parse(window.localStorage.getItem("loggedBBUser"));

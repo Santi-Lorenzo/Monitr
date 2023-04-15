@@ -56,6 +56,7 @@ categoriesController.addCategory = async (req, res, next) => {
 };
 
 categoriesController.editCategory = async (req, res, next) => {
+  console.log(req.body);
   try {
     const { name, _id } = req.body;
     update = {

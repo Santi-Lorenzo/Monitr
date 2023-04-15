@@ -17,7 +17,9 @@ const expensesReducer = (state = initialState, action) => {
         (obj) => obj._id === action.payload._id
       );
 
-      action.payload.date = action.payload.date.slice(0, 10);
+      if (action.payload.date) {
+        action.payload.date = action.payload.date.slice(0, 10);
+      }
 
       const updatedExpenses = [
         ...state.expenses.slice(0, index),

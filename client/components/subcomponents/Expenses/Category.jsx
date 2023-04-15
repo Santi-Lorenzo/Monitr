@@ -1,45 +1,89 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useSelector, useDispatch } from "react-redux";
+import actions from "../../../actions/actions";
 
-const CategoryDropDown = () => {
-  // const categories = useSelector((state) => state.categories.categories);
-
-  const categories = ["food", "rent", "entertainment", "medical"];
+const CategoryDropDown = (props) => {
+  const categories = useSelector((state) => state.categories.categories);
   const dispatch = useDispatch();
-  const [category, setCategory] = useState("Select");
+  const [display, setDisplay] = useState("Select");
+  // const selectedCategory = useSelector(
+  //   (state) => state.categories.selectedCategory
+  // );
   const [triggerDropDown, setTriggerDropDown] = useState(false);
-
-  useEffect(() => {
-    setTriggerDropDown(true);
-  }, []);
+  const [input, setInput] = useState("");
+  const inputRef = useRef(null);
 
   const handleDropDown = () => {
     setTriggerDropDown(!triggerDropDown);
   };
 
-  const handleAddCantegory = () => {
-    dispatch(actions.addCategory);
+  const handleAddCategory = () => {
+    if (input.length > 0) {
+      dispatch(actions.addCategoryThunk({ name: input }));
+      setInput("");
+    }
   };
+
+  const handleDeleteCategory = (index) => {
+    dispatch(actions.deleteCategoryThunk(categories[index]));
+  };
+
+  const handleInputChange = (event) => {
+    setInput(event.target.value);
+  };
+
+  const handleCategory = (index) => {
+    const copy = [...categories];
+    props.handleCategorySelection(copy[index].name);
+    setDisplay(copy[index].name);
+    // dispatch(actions.setSelectedCategory(copy[index].name));
+    handleDropDown();
+  };
+
+  const handleKey = (event) => {
+    console.log(event.key);
+  };
+
   const dropDown = categories.map((category, index) => {
     return (
-      <li className="dropDownListItem">
-        <div className="dropDownItem">{category}</div>
-        <button className="dropDownDeleteBtn">X</button>
+      <li key={category._id} className="dropDownListItem">
+        <div onClick={() => handleCategory(index)} className="dropDownItem">
+          {category.name}
+        </div>
+        <button
+          className="dropDownDeleteBtn"
+          onClick={() => handleDeleteCategory(index)}
+        >
+          X
+        </button>
       </li>
     );
   });
 
   return (
     <>
-      <div className="categoryDisplay" onClick={handleDropDown}>
-        {category}
+      <div
+        // tabIndex={0}
+        onKeyDown={handleKey}
+        className="categoryDisplay"
+        onClick={handleDropDown}
+      >
+        {display}
       </div>
 
       {triggerDropDown && (
         <div className="dropDownContainer">
           <ul>{dropDown}</ul>
-          <div className="addCategory" onClick={handleAddCantegory}>
-            New +
+          <div className="addCategory">
+            <input
+              ref={inputRef}
+              className="categoryInput"
+              value={input}
+              type="text"
+              placeholder="create category"
+              onChange={handleInputChange}
+            />
+            <button onClick={handleAddCategory}>Add</button>
           </div>
         </div>
       )}

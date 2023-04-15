@@ -29,13 +29,18 @@ const ExpensesTable = () => {
 
   const handleInputChange = (event, index, property) => {
     const newData = [...expenses];
-    console.log("gg", event.target.value);
     newData[index][property] = event.target.value;
+    dispatch(actions.updateExpenseThunk(newData[index]));
+  };
 
+  const handleCategorySelection = (index, property, category) => {
+    const newData = [...expenses];
+    newData[index][property] = category;
     dispatch(actions.updateExpenseThunk(newData[index]));
   };
 
   const handleEnterKeyPress = (event) => {
+    console.log(event.key);
     if (event.key === "Enter") {
       setEditingCell({
         index: null,
@@ -94,6 +99,7 @@ const ExpensesTable = () => {
                     : "leftBorder"
                 }
                 onClick={() => handleCellClick(index, "name")}
+                tabIndex={0 + index}
               >
                 {editingCell.index === index &&
                 editingCell.property === "name" ? (
@@ -120,6 +126,7 @@ const ExpensesTable = () => {
                 }
                 style={{ textAlign: "right" }}
                 onClick={() => handleCellClick(index, "amount")}
+                tabIndex={1 + index}
               >
                 {editingCell.index === index &&
                 editingCell.property === "amount" ? (
@@ -146,6 +153,7 @@ const ExpensesTable = () => {
                     : ""
                 }
                 onClick={() => handleCellClick(index, "date")}
+                tabIndex={2 + index}
               >
                 {editingCell.index === index &&
                 editingCell.property === "date" ? (
@@ -173,10 +181,16 @@ const ExpensesTable = () => {
                     : "rightBorder"
                 }
                 onClick={() => handleCellClick(index, "category")}
+                tabIndex={3 + index}
               >
                 {editingCell.index === index &&
                 editingCell.property === "category" ? (
-                  <Category />
+                  <Category
+                    handleEnterKeyPress={handleEnterKeyPress}
+                    handleCategorySelection={(category) =>
+                      handleCategorySelection(index, "category", category)
+                    }
+                  />
                 ) : (
                   expense.category
                 )}

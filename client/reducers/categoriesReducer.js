@@ -2,6 +2,7 @@ import * as types from "../constants/actionTypes";
 
 const initialState = {
   categories: [],
+  selectedCategory: "Select",
 };
 
 const categoriesReducer = (state = initialState, action) => {
@@ -42,6 +43,12 @@ const categoriesReducer = (state = initialState, action) => {
       return {
         ...state,
         categories: deletedCategories,
+      };
+
+    case types.SET_SELECTED_CATEGORY:
+      return {
+        ...state,
+        selectedCategory: action.payload,
       };
 
     default:

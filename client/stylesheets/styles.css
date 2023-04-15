@@ -218,11 +218,20 @@ input[type="number"] {
 }
 
 .addCategory {
+  display: flex;
+}
+
+.categoryInput {
+  background: none;
+  border: none;
+  height: 100%;
+  width: 100%;
+  outline: none;
+  font-size: 16px;
   padding: 8px;
   border: 1px solid rgb(204, 204, 204);
   color: rgb(167, 167, 167);
 }
-
 /* background color:  #f2f2f2; */
 /* floating cells background color:  #f6f6f6; */
 /* border color: rgb(204, 204, 204) */
