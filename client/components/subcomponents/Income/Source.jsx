@@ -19,7 +19,7 @@ const Source = (props) => {
 
   const handleAddSource = () => {
     if (input.length > 0) {
-      dispatch(actions.addSourceThunk({ name: input }));
+      dispatch(actions.addSourceThunk({ name: input, selected: false }));
       setInput("");
     }
   };
@@ -34,9 +34,10 @@ const Source = (props) => {
 
   const handleSource = (index) => {
     const copy = [...sources];
+    copy[index].selected = true;
     props.handleSourceSelection(copy[index].name);
+    dispatch(actions.updateSourceThunk(copy[index]));
     setDisplay(copy[index].name);
-    // dispatch(actions.setSelectedCategory(copy[index].name));
     handleDropDown();
   };
 

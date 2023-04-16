@@ -38,7 +38,6 @@ const Category = (props) => {
     props.handleCategorySelection(copy[index].name);
     dispatch(actions.updateCategoryThunk(copy[index]));
     setDisplay(copy[index].name);
-    // dispatch(actions.setSelectedCategory(copy[index].name));
     handleDropDown();
   };
 
