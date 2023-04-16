@@ -87,6 +87,9 @@ const DashboardTable = () => {
           );
         })}
         <td className="amountInput">${totalIncome.toFixed(2)}</td>
+        <td className="amountInput">
+          ${(totalIncome - totalExpenditure).toFixed(2)}
+        </td>
       </tr>
     );
   });
@@ -126,6 +129,9 @@ const DashboardTable = () => {
         );
       })}
       <td className="amountInput">${sumIncome.toFixed(2)}</td>
+      <td className="amountInput">
+        ${(sumIncome - sumExpenditures).toFixed(2)}
+      </td>
     </tr>
   );
 
