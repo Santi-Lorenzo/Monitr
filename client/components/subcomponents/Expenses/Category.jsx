@@ -19,7 +19,7 @@ const Category = (props) => {
 
   const handleAddCategory = () => {
     if (input.length > 0) {
-      dispatch(actions.addCategoryThunk({ name: input }));
+      dispatch(actions.addCategoryThunk({ name: input, selected: false }));
       setInput("");
     }
   };
@@ -34,7 +34,9 @@ const Category = (props) => {
 
   const handleCategory = (index) => {
     const copy = [...categories];
+    copy[index].selected = true;
     props.handleCategorySelection(copy[index].name);
+    dispatch(actions.updateCategoryThunk(copy[index]));
     setDisplay(copy[index].name);
     // dispatch(actions.setSelectedCategory(copy[index].name));
     handleDropDown();

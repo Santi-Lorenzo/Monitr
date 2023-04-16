@@ -31,10 +31,11 @@ categoriesController.addCategory = async (req, res, next) => {
         },
       });
     }
-    const { name } = req.body;
+    const { name, selected } = req.body;
 
     const category = new Category({
       name,
+      selected,
       user: res.locals.id,
     });
 
@@ -56,9 +57,10 @@ categoriesController.addCategory = async (req, res, next) => {
 
 categoriesController.editCategory = async (req, res, next) => {
   try {
-    const { name, _id } = req.body;
+    const { name, selected, _id } = req.body;
     update = {
       name,
+      selected,
     };
 
     const updatedCategory = await Category.findOneAndUpdate({ _id }, update, {
