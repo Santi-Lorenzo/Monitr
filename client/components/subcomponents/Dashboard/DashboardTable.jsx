@@ -3,18 +3,6 @@ import { useSelector, useDispatch } from "react-redux";
 import actions from "../../../actions/actions";
 
 const DashboardTable = () => {
-  // determine the amount of categories being used
-  // add a boolean to categories model determining wether category is in use
-  // name, date, amount, category
-  // we need list of expenses that line up with each month, and add amount to appropriate category column
-
-  //iterate through each expense in expenses placing each expense object in correct month container
-  //iterate through each month container placing adding expense amount to correct category
-  // basically we need to map each expense object to a month and category cell
-
-  //loop through each month
-  //loop through each category
-
   const expenses = useSelector((state) => state.expenses.expenses);
   const categories = useSelector((state) => state.categories.categories);
   const months = [
@@ -31,13 +19,22 @@ const DashboardTable = () => {
     "November",
     "December",
   ];
+
   const filteredCategories = categories.filter((category) => category.selected);
+  let sumExpenditures = 0;
+
+  const categoriesTH = filteredCategories.map((category) => {
+    const header =
+      category.name[0].toUpperCase() + category.name.substring(1).toLowerCase();
+    return <th>{header}</th>;
+  });
 
   const rows = months.map((month, index) => {
+    let total = 0;
     return (
       <tr>
         <td>{month}</td>
-        {filteredCategories.map((category, idx) => {
+        {filteredCategories.map((category) => {
           return (
             <td>
               {expenses
@@ -49,31 +46,50 @@ const DashboardTable = () => {
                   );
                 })
                 .reduce((acc, expense) => {
+                  total += expense.amount;
+                  sumExpenditures += expense.amount;
                   return acc + expense.amount;
                 }, 0)}
             </td>
           );
         })}
+        <td>{total}</td>
       </tr>
     );
   });
+
+  const totals = (
+    <tr>
+      <td>Total</td>
+      {filteredCategories.map((category) => {
+        return (
+          <td>
+            {expenses.reduce((acc, expense) => {
+              if (expense.category === category.name) {
+                return acc + expense.amount;
+              }
+              return acc + 0;
+            }, 0)}
+          </td>
+        );
+      })}
+      <td>{sumExpenditures}</td>
+    </tr>
+  );
 
   return (
     <table>
       <thead>
         <tr>
           <th>Month</th>
-          <th>Category 1</th>
-          <th>Category 2</th>
-          <th>Category 3</th>
-          <th>Category 4</th>
-          <th>Category 5</th>
-          {/* <th>Total Expenditure</th>
-        <th>Total Income</th>
-        <th>Gross Savings</th> */}
+          {categoriesTH}
+          <th>Total Expenditure</th>
+          <th>Total Income</th>
+          <th>Gross Savings</th>
         </tr>
       </thead>
       <tbody>{rows}</tbody>
+      <tfoot>{totals}</tfoot>
     </table>
   );
 };
