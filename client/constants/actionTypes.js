@@ -16,3 +16,4 @@ export const UPDATE_SOURCE = "UPDATE_SOURCE";
 export const ADD_SOURCE = "ADD_SOURCE";
 export const DELETE_SOURCE = "DELETE_SOURCE";
 export const SET_SELECTED_SOURCE = "SET_SELECTED_SOURCE";
+export const SET_USER = "SET_USER";

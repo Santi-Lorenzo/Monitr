@@ -1,12 +1,15 @@
 import React, { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import axios from "axios";
+import actions from "../actions/actions";
+import { useDispatch } from "react-redux";
 
 const Login = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
   const [errorMessage, setErrorMessage] = useState(false);
+  const dispatch = useDispatch();
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -19,7 +22,8 @@ const Login = () => {
       setUsername("");
       setPassword("");
       window.localStorage.setItem("loggedBBUser", JSON.stringify(res.data));
-      navigate("/expenses");
+      dispatch(actions.setUser(true));
+      navigate("/");
     } catch (err) {
       setErrorMessage(true);
       setTimeout(() => {

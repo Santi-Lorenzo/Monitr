@@ -353,4 +353,26 @@ actions.deleteSourceThunk = (state) => async (dispatch) => {
   }
 };
 
+//----------------------user-----------------------------
+actions.setUser = (state) => ({
+  type: types.SET_USER,
+  payload: state,
+});
+
+actions.setUserThunk = () => async (dispatch) => {
+  try {
+    const token = JSON.parse(window.localStorage.getItem("loggedBBUser"));
+    const res = await axios.get(`/api/auth/valid`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    if (res.status === 200) {
+      dispatch(actions.setUser(true));
+    }
+  } catch (err) {
+    console.log("Error in setUserThunk:", err);
+  }
+};
+
 export default actions;
